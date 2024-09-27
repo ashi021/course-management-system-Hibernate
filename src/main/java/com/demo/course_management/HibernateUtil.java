@@ -1,0 +1,33 @@
+package com.demo.course_management;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import com.demo.course_management.entities.Admission;
+import com.demo.course_management.entities.Course;
+import com.demo.course_management.entities.Student;
+import com.demo.course_management.entities.Teacher;
+
+public class HibernateUtil {
+    private static final SessionFactory sessionFactory = buildSessionFactory();
+
+    private static SessionFactory buildSessionFactory() {
+        try {
+            return new Configuration().configure("hibernate.cfg.xml")
+                    .addAnnotatedClass(Student.class)
+                    .addAnnotatedClass(Teacher.class)
+                    .addAnnotatedClass(Admission.class)
+                    .addAnnotatedClass(Course.class)
+                    .buildSessionFactory();
+        } catch (Throwable ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public static void shutdown() {
+        getSessionFactory().close();
+    }
+}
