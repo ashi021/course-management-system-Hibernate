@@ -11,29 +11,27 @@ import java.util.List;
 
 public class StudentDaoImpl implements StudentDao {
 
-	@Override
-	public void saveStudent(Student student) {
-	    Transaction transaction = null;
-	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-	        transaction = session.beginTransaction();
-	        
-	        // Ensure admission_id is set if required
-	        if (student.getAdmissions() != null && !student.getAdmissions().isEmpty()) {
-	            // Set the admissionId based on the first admission, or handle as needed
-	            Admission firstAdmission = student.getAdmissions().get(0);
-	            // Ensure admission has the necessary attributes set
-	            session.save(firstAdmission);
-	        }
-	        
-	        session.save(student);
-	        transaction.commit();
-	    } catch (Exception e) {
-	        if (transaction != null) transaction.rollback();
-	        System.err.println("Error while saving student: " + e.getMessage());
-	    }
-	}
-
-
+    @Override
+    public void saveStudent(Student student) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            
+            // Ensure the admission is set
+            Admission admission = student.getAdmission();
+            if (admission != null) {
+                // Set the student reference in the admission
+                admission.setStudent(student);
+                session.save(admission); // Save the admission first
+            }
+            
+            session.save(student); // Save the student
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            System.err.println("Error while saving student: " + e.getMessage());
+        }
+    }
 
     @Override
     public List<Student> findAllStudents() {
@@ -61,6 +59,12 @@ public class StudentDaoImpl implements StudentDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(student);
+            // If updating, ensure admission is also updated if it exists
+            Admission admission = student.getAdmission();
+            if (admission != null) {
+                admission.setStudent(student);
+                session.update(admission); // Update the admission as well
+            }
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -75,7 +79,12 @@ public class StudentDaoImpl implements StudentDao {
             transaction = session.beginTransaction();
             Student student = session.get(Student.class, studentId);
             if (student != null) {
-                session.delete(student);
+                // Also delete the admission if it exists
+                Admission admission = student.getAdmission();
+                if (admission != null) {
+                    session.delete(admission); // Delete the admission first
+                }
+                session.delete(student); // Then delete the student
             }
             transaction.commit();
         } catch (Exception e) {

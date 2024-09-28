@@ -24,20 +24,20 @@ public class TeacherOperations {
         String qualification = getInput("Enter Teacher Qualification: ");
 
         double salary = getSalaryInput();
-        Long courseId = getCourseIdInput();
+        //Long courseId = getCourseIdInput();
 
         // Create a new Teacher object
         Teacher teacher = new Teacher(teacherName, teacherMobileNo, teacherEmail, qualification, salary, new ArrayList<>());
 
         // If a course ID is provided (not zero), set the teacher to that course
-        if (courseId != 0) {
-            Course course = teacherService.getCourseById(courseId); // Fetch the course by ID
-            if (course != null) {
-                teacher.getCourses().add(course); // Add course to teacher's list of courses
-            } else {
-                System.out.println("Course with ID " + courseId + " does not exist. Teacher will not be associated with any course.");
-            }
-        }
+//        if (courseId != 0) {
+//            Course course = teacherService.getCourseById(courseId); // Fetch the course by ID
+//            if (course != null) {
+//                teacher.getCourses().add(course); // Add course to teacher's list of courses
+//            } else {
+//                System.out.println("Course with ID " + courseId + " does not exist. Teacher will not be associated with any course.");
+//            }
+//        }
 
         return teacher;
     }
@@ -68,19 +68,19 @@ public class TeacherOperations {
         }
     }
 
-    private static Long getCourseIdInput() {
-        while (true) {
-            System.out.print("Enter Course ID (if any, otherwise enter 0): ");
-            try {
-                Long courseId = sc.nextLong();
-                sc.nextLine(); // Consume newline
-                return courseId;
-            } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a numeric Course ID.");
-                sc.nextLine(); // Consume the invalid input
-            }
-        }
-    }
+//    private static Long getCourseIdInput() {
+//        while (true) {
+//            System.out.print("Enter Course ID (if any, otherwise enter 0): ");
+//            try {
+//                Long courseId = sc.nextLong();
+//                sc.nextLine(); // Consume newline
+//                return courseId;
+//            } catch (Exception e) {
+//                System.out.println("Invalid input. Please enter a numeric Course ID.");
+//                sc.nextLine(); // Consume the invalid input
+//            }
+//        }
+//    }
 
     // Method to display teachers with their courses
     public static void displayTeachersWithCourses(List<Teacher> teachers) {

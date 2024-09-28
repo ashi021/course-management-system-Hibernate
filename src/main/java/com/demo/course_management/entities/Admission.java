@@ -20,8 +20,8 @@ public class Admission {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @ManyToOne // Change to ManyToOne to reflect the one-to-many relationship
-    @JoinColumn(name = "student_id", nullable = false)
+    @OneToOne 
+    @JoinColumn(name = "student_id",unique= true, nullable = false)
     private Student student;
 
     // Default constructor
@@ -69,7 +69,9 @@ public class Admission {
 
     @Override
     public String toString() {
-        return "Admission [admissionId=" + admissionId + ", admissionDate=" + admissionDate + 
-                ", course=" + course + ", student=" + student + "]";
+        return "Admission [admissionId=" + admissionId + 
+               ", admissionDate=" + admissionDate + 
+               ", courseId=" + (course != null ? course.getCourseId() : "N/A") + 
+               ", studentId=" + (student != null ? student.getStudentId() : "N/A") + "]";
     }
 }
