@@ -69,9 +69,15 @@ public class Admission {
 
     @Override
     public String toString() {
+        String studentInfo = student != null ? 
+                             "Student [studentId=" + student.getStudentId() + 
+                             ", studentName=" + student.getStudentName() + "]" 
+                             : "No student assigned";
+        
         return "Admission [admissionId=" + admissionId + 
                ", admissionDate=" + admissionDate + 
                ", courseId=" + (course != null ? course.getCourseId() : "N/A") + 
-               ", studentId=" + (student != null ? student.getStudentId() : "N/A") + "]";
+               ", " + studentInfo + "]";
     }
+
 }

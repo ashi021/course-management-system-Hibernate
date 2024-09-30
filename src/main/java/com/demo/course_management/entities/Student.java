@@ -116,11 +116,13 @@ public class Student {
         this.admission = admission;
     }
 
-	@Override
-	public String toString() {
-		return "Student [studentId=" + studentId + ", studentName=" + studentName + 
-				", studentDob=" + studentDob + ", studentEmail=" + studentEmail + 
-				", studentMobileNo=" + studentMobileNo + ", studentAddress=" + studentAddress + 
-				", studentGender=" + studentGender +  "]"; // Include admissionId if necessary
-	}
+    @Override
+    public String toString() {
+        return "Student [studentId=" + studentId + ", studentName=" + studentName + 
+                ", studentDob=" + studentDob + ", studentEmail=" + studentEmail + 
+                ", studentMobileNo=" + studentMobileNo + ", studentAddress=" + studentAddress + 
+                ", studentGender=" + studentGender + 
+                ", admissionId=" + (admission != null ? admission.getAdmissionId() : "null") + "]";
+    }
+
 }

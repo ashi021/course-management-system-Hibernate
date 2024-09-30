@@ -103,8 +103,13 @@ public class Course {
 
     @Override
     public String toString() {
+        String teacherInfo = teacher != null ? 
+                             "Teacher [teacherId=" + teacher.getTeacherId() + 
+                             ", teacherName=" + teacher.getTeacherName() + "]" 
+                             : "No teacher assigned";
+        
         return "Course [courseId=" + courseId + ", courseName=" + courseName 
                 + ", courseDuration=" + courseDuration + ", credits=" + credits 
-                + ", maxEnrollment=" + maxEnrollment + ", teacher=" + teacher + "]";
+                + ", maxEnrollment=" + maxEnrollment + ", teacher=" + teacherInfo + "]";
     }
 }
