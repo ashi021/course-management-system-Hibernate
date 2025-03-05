@@ -9,79 +9,87 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+// This class implements the TeacherDao interface to perform database operations related to teachers.
 public class TeacherDaoImpl implements TeacherDao {
 
+    // Method to add a new teacher to the database.
     @Override
     public void addTeacher(Teacher teacher) {
-        Transaction transaction = null;
+        Transaction transaction = null; // Start a transaction
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(teacher);
-            transaction.commit();
+            transaction = session.beginTransaction(); // Begin the transaction
+            session.save(teacher); // Save the teacher object
+            transaction.commit(); // Commit the transaction
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            if (transaction != null) transaction.rollback(); // Rollback if there's an error
+            e.printStackTrace(); // Print the stack trace for debugging
         }
     }
 
+    // Method to get a list of all teachers from the database.
     @Override
     public List<Teacher> getAllTeachers() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Teacher", Teacher.class).list();
+            return session.createQuery("from Teacher", Teacher.class).list(); // Retrieve and return all teachers
         }
     }
 
+    // Method to get a teacher by their ID.
     @Override
     public Teacher getTeacherById(Long teacherId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Teacher.class, teacherId);
+            return session.get(Teacher.class, teacherId); // Retrieve and return the teacher
         }
     }
 
+    // Method to update an existing teacher in the database.
     @Override
     public void updateTeacher(Teacher teacher) {
-        Transaction transaction = null;
+        Transaction transaction = null; // Start a transaction
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.update(teacher);
-            transaction.commit();
+            transaction = session.beginTransaction(); // Begin the transaction
+            session.update(teacher); // Update the teacher object
+            transaction.commit(); // Commit the transaction
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            if (transaction != null) transaction.rollback(); // Rollback if there's an error
+            e.printStackTrace(); // Print the stack trace for debugging
         }
     }
 
+    // Method to delete a teacher by their ID.
     @Override
     public void deleteTeacher(Long teacherId) {
-        Transaction transaction = null;
+        Transaction transaction = null; // Start a transaction
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            Teacher teacher = session.get(Teacher.class, teacherId);
+            transaction = session.beginTransaction(); // Begin the transaction
+            Teacher teacher = session.get(Teacher.class, teacherId); // Get the teacher by ID
             if (teacher != null) {
-                session.delete(teacher);
+                session.delete(teacher); // Delete the teacher if found
             }
-            transaction.commit();
+            transaction.commit(); // Commit the transaction
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            if (transaction != null) transaction.rollback(); // Rollback if there's an error
+            e.printStackTrace(); // Print the stack trace for debugging
         }
     }
 
+    // Method to get a list of courses taught by a specific teacher.
     @Override
     public List<Course> getCoursesByTeacher(Long teacherId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Teacher teacher = session.get(Teacher.class, teacherId);
+            Teacher teacher = session.get(Teacher.class, teacherId); // Get the teacher by ID
             if (teacher != null) {
                 return teacher.getCourses(); // Get the list of courses taught by the teacher
             }
-            return null;
+            return null; // Return null if teacher not found
         }
     }
 
+    // Method to get a course by its ID.
     @Override
     public Course getCourseById(Long courseId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Course.class, courseId);
+            return session.get(Course.class, courseId); // Retrieve and return the course
         }
     }
 }
